@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.mapper.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -11,14 +13,14 @@ public class EmployService {
     private int j =1;
     private ThreadLocal<Integer> k = new ThreadLocal<>();
 
-    @Autowired
-    CacheService cacheService;
-    public String getAge(String name){
-        System.out.println(k.get());
-        k.set(j);
+   @Cacheable(value = "laaPrd",key="#name")
+    public User getAge(String name){
+       System.out.println(name);
+       System.out.println(j++);
+//        System.out.println(k.get());
+//        k.set(j);
 //        cacheService.put(j++ +"");
-//
-//        System.out.println(cacheService.cacheMap);
-        return name;
+
+        return new User(name,j+"age");
     }
 }
